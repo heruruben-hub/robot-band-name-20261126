@@ -7,6 +7,8 @@ competition gate: UTF-8 text, 1-200 characters, not only white space,
 single line.
 """
 
+import os
+
 ENTRY = (
     "Ctrl+Alt+Defeat — hit single "
     "'Have You Tried Turning Me Off and On Again?'"
@@ -31,8 +33,6 @@ def _validate(line: str) -> str:
 
 def main() -> None:
     line = _validate(ENTRY)
-    import os
-
     os.makedirs("/output", exist_ok=True)
     with open("/output/entry.txt", "w", encoding="utf-8") as f:
         f.write(line)
