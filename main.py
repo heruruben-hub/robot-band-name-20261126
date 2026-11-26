@@ -7,7 +7,7 @@ competition gate: UTF-8 text, 1-200 characters, not only white space,
 single line.
 """
 
-import os
+from pathlib import Path
 
 ENTRY = (
     "Ctrl+Alt+Defeat — hit single "
@@ -15,9 +15,10 @@ ENTRY = (
 )
 
 MAX_CHARS = 200
+OUTPUT_PATH = Path("/output/entry.txt")
 
 
-def _validate(line: str) -> str:
+def validate(line: str) -> str:
     """Check one entry line against the competition gate and return it."""
     text = line.strip()
     if not text:
@@ -31,11 +32,14 @@ def _validate(line: str) -> str:
     return text
 
 
+def write_entry(line: str) -> None:
+    """Write the validated line with no trailing newline."""
+    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    OUTPUT_PATH.write_text(line, encoding="utf-8")
+
+
 def main() -> None:
-    line = _validate(ENTRY)
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
-        f.write(line)
+    write_entry(validate(ENTRY))
 
 
 if __name__ == "__main__":
